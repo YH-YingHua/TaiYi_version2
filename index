@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เรียนภาษาไต้หวัน - ฮกเกี้ยน</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Sarabun', 'Noto Sans Thai', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            padding: 30px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .word-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .word-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        .thai-word {
+            font-size: 2em;
+            color: #667eea;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .pronunciation-section {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .pronunciation-item {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+
+        .pronunciation-label {
+            font-weight: bold;
+            color: #555;
+            display: inline-block;
+            width: 120px;
+        }
+
+        .pronunciation-value {
+            color: #333;
+            font-size: 1.1em;
+        }
+
+        .usage {
+            background: #fff3cd;
+            padding: 12px;
+            border-left: 4px solid #ffc107;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            color: #856404;
+        }
+
+        .audio-controls {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .play-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .play-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .play-button:active {
+            transform: scale(0.95);
+        }
+
+        .play-button.playing {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        @media (max-width: 600px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .thai-word {
+                font-size: 1.5em;
+            }
+
+            .pronunciation-label {
+                width: 100px;
+                font-size: 0.9em;
+            }
+
+            .pronunciation-value {
+                font-size: 1em;
+            }
+        }
+
+        .loading {
+            text-align: center;
+            color: white;
+            font-size: 1.2em;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎓 เรียนภาษาไต้หวัน (ฮกเกี้ยน)</h1>
+            <p>คำศัพท์ภาษาไต้หวันสำหรับเพื่อนชาวไทย</p>
+        </div>
+
+        <div id="wordList"></div>
+    </div>
+
+    <script>
+        const vocabulary = [
+            {
+                thai: 'สวัสดี',
+                romanization: 'lí-hó',
+                thaiScript: 'ลี โห',
+                ipa: '/li˥˧ ho˥˧/',
+                usage: 'ใช้ทักทายเวลาเจอกัน (สำหรับ 1 คน)',
+                audio: ['哩厚', '哩厚2']
+            },
+            {
+                thai: 'สวัสดีทุกคน',
+                romanization: 'tāi-ka-hó',
+                thaiScript: 'ได กา โห',
+                ipa: '/tai˧˧ ka˧˧ ho˥˧/',
+                usage: 'ใช้ทักทายเวลาพบกลุ่มคน',
+                audio: ['大家好', '大家好2']
+            },
+            {
+                thai: 'สวัสดีทุกคน ฉันชื่อบอนนี่',
+                romanization: 'tāi-ka-hó, guá sī Bonnie',
+                thaiScript: 'ได กา โห, กวา ซี บอนนี่',
+                ipa: '/tai˧˧ ka˧˧ ho˥˧, gua˥˧ si˧˧ Bonnie/',
+                usage: 'ใช้แนะนำตัวเองต่อกลุ่มคน',
+                audio: ['大家好，我是Bonnie']
+            },
+            {
+                thai: 'ฉันเป็นคนไทยค่ะ',
+                romanization: 'guá sī Tài-kok-lâng',
+                thaiScript: 'กวา ซี ไท กก หลัง',
+                ipa: '/gua˥˧ si˧˧ tʰai˥˩ kok˥ laŋ˨˦/',
+                usage: 'ใช้บอกว่าตัวเองเป็นคนไทย',
+                audio: ['我是泰國人']
+            },
+            {
+                thai: 'กินอิ่มไหม',
+                romanization: 'tsia̍h-pá--bē',
+                thaiScript: 'เจีย ปา เบ',
+                ipa: '/t͡siaʔ˥ pa˥˧ be˧˧/',
+                usage: 'ใช้ถามว่ากินข้าวหรือยัง (คำทักทายแบบไต้หวัน)',
+                audio: ['呷飽未', '呷飽未2']
+            },
+            {
+                thai: 'อร่อย',
+                romanization: 'hó-tsia̍h',
+                thaiScript: 'โห เจีย',
+                ipa: '/ho˥˧ t͡siaʔ˥/',
+                usage: 'ใช้บอกว่าอาหารอร่อย',
+                audio: ['厚呷']
+            },
+            {
+                thai: '20 บาท',
+                romanization: 'jī-tsa̍p-kho͘',
+                thaiScript: 'จี ซับ โข',
+                ipa: '/d͡ʑi˨˦ t͡sap˥ kʰɔ˧˧/',
+                usage: 'ใช้บอกราคาหรือจำนวนเงิน 20 หน่วย',
+                audio: ['二十塊']
+            },
+            {
+                thai: 'น่ารัก',
+                romanization: 'kâu-tsui',
+                thaiScript: 'เก้า ซุย',
+                ipa: '/kau˨˦ t͡sui˧˧/',
+                usage: 'ใช้ชมว่าน่ารัก',
+                audio: ['勾錐', '勾錐2']
+            },
+            {
+                thai: 'สวยมาก',
+                romanization: 'tsiok-súi--ê',
+                thaiScript: 'จก ซุย เอ',
+                ipa: '/t͡siok˥ sui˥˧ e˨˦/',
+                usage: 'ใช้ชมว่าสวยมาก',
+                audio: ['就水欸']
+            },
+            {
+                thai: 'ฉันรักคุณ',
+                romanization: 'guá ài lí',
+                thaiScript: 'กวา ไอ ลี',
+                ipa: '/gua˥˧ ai˥˩ li˥˧/',
+                usage: 'ใช้แสดงความรักต่อใครสักคน',
+                audio: ['哇愛哩', '哇愛哩2']
+            },
+            {
+                thai: 'ขอบคุณนะคะ',
+                romanization: 'kam-siā',
+                thaiScript: 'กำ เซีย',
+                ipa: '/kam˧˧ sia˧˧/',
+                usage: 'ใช้ขอบคุณเวลาได้รับความช่วยเหลือหรือของขวัญ',
+                audio: ['甘蝦']
+            },
+            {
+                thai: 'อะไรนะ',
+                romanization: 'siáⁿ-mih',
+                thaiScript: 'เซีย มิ',
+                ipa: '/sĩã˥˧ miʔ˥/',
+                usage: 'ใช้ถามว่า "อะไร" เวลาไม่เข้าใจหรือประหลาดใจ',
+                audio: ['蝦米', '蝦米2']
+            },
+            {
+                thai: 'ไม่รู้',
+                romanization: 'm̄-tsai',
+                thaiScript: 'ม ใจ',
+                ipa: '/m̩˧˧ t͡sai˧˧/',
+                usage: 'ใช้บอกว่าไม่รู้หรือไม่ทราบเรื่องนั้น',
+                audio: ['不知道', '不知道2']
+            },
+            {
+                thai: 'ไม่เข้าใจ',
+                romanization: 'thiann-bô',
+                thaiScript: 'เทีย โบ',
+                ipa: '/tʰĩã˧˧ bo˨˦/',
+                usage: 'ใช้บอกว่าไม่เข้าใจหรือไม่ได้ยิน',
+                audio: ['聽無', '聽無2']
+            },
+            {
+                thai: 'เจอกันนะ',
+                romanization: 'tsài-huē',
+                thaiScript: 'ใจ ฮุย',
+                ipa: '/t͡sai˥˩ hue˧˧/',
+                usage: 'ใช้กล่าวลาเวลาจะแยกย้ายกัน',
+                audio: ['再會', '再會2']
+            }
+        ];
+
+        function createWordCard(word) {
+            const card = document.createElement('div');
+            card.className = 'word-card';
+
+            let audioButtonsHTML = '';
+            word.audio.forEach((audioFile, index) => {
+                const label = word.audio.length > 1 ? `🔊 เล่นเสียง ${index + 1}` : '🔊 เล่นเสียง';
+                audioButtonsHTML += `
+                    <button class="play-button" onclick="playAudio('${audioFile}', this)">
+                        ${label}
+                    </button>
+                `;
+            });
+
+            card.innerHTML = `
+                <div class="thai-word">${word.thai}</div>
+                <div class="pronunciation-section">
+                    <div class="pronunciation-item">
+                        <span class="pronunciation-label">🔤 อักษรโรมัน:</span>
+                        <span class="pronunciation-value">${word.romanization}</span>
+                    </div>
+                    <div class="pronunciation-item">
+                        <span class="pronunciation-label">🇹🇭 ทับศัพท์ไทย:</span>
+                        <span class="pronunciation-value">${word.thaiScript}</span>
+                    </div>
+                    <div class="pronunciation-item">
+                        <span class="pronunciation-label">📢 สัทอักษร:</span>
+                        <span class="pronunciation-value">${word.ipa}</span>
+                    </div>
+                </div>
+                <div class="usage">
+                    <strong>💡 วิธีใช้:</strong> ${word.usage}
+                </div>
+                <div class="audio-controls">
+                    ${audioButtonsHTML}
+                </div>
+            `;
+
+            return card;
+        }
+
+        function playAudio(audioFile, button) {
+            const audio = new Audio(`TaiYi/${audioFile}.mp3`);
+            
+            // Reset all buttons
+            document.querySelectorAll('.play-button').forEach(btn => {
+                btn.classList.remove('playing');
+                btn.textContent = btn.textContent.replace('⏸️', '🔊');
+            });
+
+            button.classList.add('playing');
+            button.textContent = button.textContent.replace('🔊', '⏸️');
+
+            audio.play();
+
+            audio.onended = () => {
+                button.classList.remove('playing');
+                button.textContent = button.textContent.replace('⏸️', '🔊');
+            };
+
+            audio.onerror = () => {
+                alert('ไม่สามารถเล่นไฟล์เสียงได้ กรุณาตรวจสอบว่าไฟล์เสียงอยู่ในโฟลเดอร์ audio/');
+                button.classList.remove('playing');
+                button.textContent = button.textContent.replace('⏸️', '🔊');
+            };
+        }
+
+        // Initialize the page
+        const wordList = document.getElementById('wordList');
+        vocabulary.forEach(word => {
+            wordList.appendChild(createWordCard(word));
+        });
+    </script>
+</body>
+</html>
