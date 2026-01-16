@@ -56,7 +56,7 @@
             },
             {
                 th: "สวัสดีทุกคน ฉันชื่อบอนนี่",
-                en: "Hello everyone, I’m Bonnie.",
+                en: "<br>Hello everyone, I’m Bonnie.",
                 zh: "大家好，我是Bonnie", zh_th_spell: "ต้า เจีย ห่าว หว่อ ซื่อ บอนนี่", zh_en_spell: "dà jiā hǎo, wǒ shì Bonnie", zh_audio: ["0_大家好，我是Bonnie"],
                 tw: "大家好，我是Bonnie", tw_th_spell: "ตั๊ก-เก-ห่อ ว้า-ซี-Bonnie", tw_en_spell: "ta̍k-ke hó, góa sī Bonnie", tw_audio: ["大家好，我是Bonnie"],
                 note: "แนะนำตัวแบบเป็นทางการ"
@@ -198,15 +198,15 @@
                     </div>
                 </div>
 
-                <div class="mt-2 pt-4 border-t border-dashed border-gray-100 text-sm text-gray-400">
+                <div class="mt-1 pt-2 border-t border-dashed border-gray-100 text-sm text-gray-400">
                     💡 ${item.note}
+</div>
                 </div>
             `;
             container.appendChild(card);
         });
 
         function playAudio(name) {
-            // 這裡假設你的資料夾結構依然是 TaiYi/檔名.mp3
             const audio = new Audio(`TaiYi/${name}.mp3`);
             audio.play().catch(e => {
                 console.error(e);
