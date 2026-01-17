@@ -5,15 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bonnie's Language Class</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Kanit', sans-serif; background-color: #fff5f7; }
+        body { 
+            /* 優先順序：蘋果系統字體 -> Google 現代泰文 -> 原本的 Kanit */
+            font-family: "Sukhumvit Set", "Noto Sans Thai", "Kanit", sans-serif; background-color: #fff5f7; }
         .card { transition: transform 0.2s; background: white; }
         .card:hover { transform: translateY(-5px); }
         .tag-zh { background-color: #ffedd5; color: #ea580c; } /* 橘色系 */
         .tag-tw { background-color: #fce7f3; color: #db2777; } /* 粉色系 */
+        /* 優化粗體字在 Sukhumvit 字體下的粗細度 */
+        h1, .font-bold {
+            font-weight: 600;
+        }
     </style>
-</head>
+</head>        
 <body class="p-4 md:p-8">
     <header class="text-center mb-12">
         <h1 class="text-4xl font-bold text-pink-600 mb-2">🇹🇭 Bonnie's Language Class 🇹🇼</h1>
@@ -35,35 +41,35 @@
         const vocabulary = [
             { 
                 th: "สวัสดี", 
-                en: "Hello", 
+                en: "<br>Hello", 
                 zh: "你好", zh_th_spell: "หนี ห่าว", zh_en_spell: "nǐ-hǎo", zh_audio: ["0_你好"],
                 tw: "哩厚", tw_th_spell: "ดิหอ", tw_en_spell: "lí-hó", tw_audio: ["哩厚", "哩厚2"],
                 note: "ใช้ทักทายทั่วไป"
             },
             {
                 th: "สวัสดี",
-                en: "Hello",
+                en: "<br>Hello",
                 zh: "哩厚", zh_th_spell: "หนี ห่าว", zh_en_spell: "nǐ-hǎo", zh_audio: ["0_哩厚"],
                 tw: "哩厚", tw_th_spell: "ลี้-ห่อ", tw_en_spell: "lí-hó", tw_audio: ["哩厚", "哩厚2"],
                 note: "ใช้ทักทายเวลาเจอกัน (สำหรับ 1 คน)"
             },
             {
                 th: "สวัสดีทุกคน",
-                en: "Hello everyone",
+                en: "<br>Hello everyone",
                 zh: "大家好", zh_th_spell: "ต้า เจีย ห่าว", zh_en_spell: "dà jiā hǎo", zh_audio: ["0_大家好"],
                 tw: "大家好", tw_th_spell: "ตั๊ก-เก-ห่อ", tw_en_spell: "ta̍k-ke hó", tw_audio: ["大家好", "大家好2"],
                 note: "ใช้ทักทายเวลาพบกลุ่มคน"
             },
             {
                 th: "สวัสดีทุกคน ฉันชื่อบอนนี่",
-                en: "Hello everyone, I’m Bonnie.",
+                en: "<br>Hello everyone, I’m Bonnie.",
                 zh: "大家好，我是Bonnie", zh_th_spell: "ต้า เจีย ห่าว หว่อ ซื่อ บอนนี่", zh_en_spell: "dà jiā hǎo, wǒ shì Bonnie", zh_audio: ["0_大家好，我是Bonnie"],
                 tw: "大家好，我是Bonnie", tw_th_spell: "ตั๊ก-เก-ห่อ ว้า-ซี-Bonnie", tw_en_spell: "ta̍k-ke hó, góa sī Bonnie", tw_audio: ["大家好，我是Bonnie"],
                 note: "แนะนำตัวแบบเป็นทางการ"
             },
             {
                 th: "ฉันเป็นคนทับศัพท์ไทยค่ะ",
-                en: "I am Thai.",
+                en: "<br>I am Thai.",
                 zh: "哇洗泰國郎", zh_th_spell: "หว่อ ซื่อ ไท่ กั๋ว เหริน", zh_en_spell: "wǒ shì Tài guó rén",
                 zh_audio: ["0_哇洗泰國郎"],
                 tw: "哇洗泰國郎", tw_th_spell: "ว้า-ซี-ไท่-ก๊ก-ลั้ง", tw_en_spell: "góa sī Thài-kok-lâng", tw_audio: ["哇洗泰國郎"],
@@ -71,77 +77,77 @@
             },
             {
                 th: "กินอิ่มไหม",
-                en: "還沒想到比較好的Are you full?",
+                en: "<br>Have you eaten? (How are you?)",
                 zh: "呷飽未", zh_th_spell: "ชือ เป่า เลอ มา", zh_en_spell: "chī bǎo le ma", zh_audio: ["0_呷飽未"],
                 tw: "呷飽未", tw_th_spell: "เจี๊ยะ-ป้า-เบ้", tw_en_spell: "chia̍h-pá-bē", tw_audio: ["呷飽未", "呷飽未2"],
                 note: "วิธีทักทายแบบดั้งเดิมของไต้หวัน (กินข้าวหรือยัง)"
             },
             {
                 th: "อร่อย",
-                en: "Yummy",
+                en: "<br>Yummy",
                 zh: "厚呷", zh_th_spell: "ห่าว ชือ", zh_en_spell: "hǎo chī", zh_audio: ["0_厚呷"],
                 tw: "厚呷", tw_th_spell: "ห่อ-เจี๊ยะ", tw_en_spell: "hó-chia̍h", tw_audio: ["厚呷"],
                 note: "ใช้ชมรสชาติอาหาร"
             },
             {
                 th: "20 บาท",
-                en: "20 dollars",
+                en: "<br>20 dollars",
                 zh: "二十塊", zh_th_spell: "เอ้อร์ สือ ไคว้", zh_en_spell: "èr shí kuài", zh_audio: ["0_二十塊"],
                 tw: "二十塊", tw_th_spell: "ยี่-จับ-โคว", tw_en_spell: "jī-cha̍p-kho͘", tw_audio: ["二十塊"],
                 note: "เอนี่ก็เรียนได้นะ"
             },
             {
                 th: "น่ารัก",
-                en: "Cute",
+                en: "<br>Cute",
                 zh: "勾錐", zh_th_spell: "เข่อ อ้าย", zh_en_spell: "kě ài", zh_audio: ["0_勾錐"],
                 tw: "勾錐", tw_th_spell: "โก-จุย", tw_en_spell: "ko-chui", tw_audio: ["勾錐", "勾錐2"],
                 note: "ชมว่าน่ารัก"
             },
             {
                 th: "สวยมาก",
-                en: "So pretty!",
+                en: "<br>So pretty!",
                 zh: "就水欸", zh_th_spell: "ห่าว เพี้ยว เลี่ยง", zh_en_spell: "hǎo piào liang", zh_audio: ["0_就水欸"],
                 tw: "就水欸", tw_th_spell: "จิ่ว-สุ่ย-เอ่", tw_en_spell: "chiù-súi--ê", tw_audio: ["就水欸"],
                 note: "ชมว่าสวยมากๆ"
             },
             {
                 th: "ฉันรักคุณ",
-                en: "I love you.",
+                en: "<br>I love you.",
                 zh: "哇愛哩", zh_th_spell: "หว่อ อ้าย หนี่", zh_en_spell: "wǒ ài nǐ", zh_audio: ["0_哇愛哩"],
                 tw: "哇愛哩", tw_th_spell: "ว้า-ไอ้-ลี้", tw_en_spell: "góa ài lí", tw_audio: ["哇愛哩", "哇愛哩2"],
                 note: "บอกรัก"
             },
             {
                 th: "ขอบคุณนะคะ",
-                en: "Thank you.",
+                en: "<br>Thank you.",
                 zh: "甘蝦", zh_th_spell: "เซี่ย เซี่ย", zh_en_spell: "xiè xie", zh_audio: ["0_甘蝦"],
                 tw: "甘蝦", tw_th_spell: "กั๋ม-เซี่ย", tw_en_spell: "kám-siā", tw_audio: ["甘蝦"],
                 note: "ใช้ขอบคุณผู้อื่น"
             },
             {
                 th: "อะไรนะ",
-                en: "What?",
+                en: "<br>What?",
                 zh: "蝦米", zh_th_spell: "เสิน เมอ", zh_en_spell: "shén mo", zh_audio: ["0_蝦米"],
                 tw: "蝦米", tw_th_spell: "เซี่ย-มี่", tw_en_spell: "siá-mi̍h", tw_audio: ["蝦米", "蝦米2"],
                 note: "ถามเมื่อไม่เข้าใจหรือตกใจ"
             },
             {
                 th: "ไม่รู้",
-                en: "Don’t know",
+                en: "<br>Don’t know",
                 zh: "不知道", zh_th_spell: "ปู้ จือ เต้า", zh_en_spell: "bù zhī dào", zh_audio: ["0_不知道"],
                 tw: "不知道", tw_th_spell: "อืม-ไจ", tw_en_spell: "m̄-chai", tw_audio: ["不知道", "不知道2"],
                 note: "เมื่อไม่ทราบข้อมูล"
             },
             {
                 th: "ไม่เข้าใจ",
-                en: "Can’t understand",
+                en: "<br>Can’t understand",
                 zh: "聽無", zh_th_spell: "ทิง ปู้ ต่ง", zh_en_spell: "tīng bù dǒng", zh_audio: ["0_聽無"],
                 tw: "聽無", tw_th_spell: "เทีย-โบ", tw_en_spell: "thiaⁿ-bô", tw_audio: ["聽無", "聽無2"],
                 note: "เวลาไม่เข้าใจหรือประหลาดใจ"
             },
             {
                 th: "เจอกันนะ",
-                en: "Goodbye",
+                en: "<br>Goodbye",
                 zh: "再會",
                 zh_th_spell: "ไจ้ เจี้ยน",
                 zh_en_spell: "zài jiàn",
@@ -171,9 +177,10 @@
             };
 
             card.innerHTML = `
-                <div class="flex flex-col">
-                    <span class="text-3xl font-bold text-gray-800 leading-tight">${item.th}</span>
-                    <span class="text-lg text-gray-400 font-light mt-1">${item.en}</span>
+                <div>
+                    <span class="text-3xl font-bold text-gray-800">${item.th}</span>
+                    <span class="text-xl text-gray-400 ml-2 font-light">${item.en}</span>
+                
                 </div>
             
                 <div class="space-y-2">
